@@ -1,0 +1,8 @@
+.vs/
+*.bd
+*.sqlite
+*.db-shm
+*.db-wal
+*.cache
+
+
