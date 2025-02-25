@@ -133,48 +133,7 @@ namespace APIProfessor.Controllers
             return Ok(new { success = true, message = "Profesor actualizado correctamente." });
         }
 
-
-
-
-
-
-            //[HttpPut]
-            //[Route("[action]/{id}")]
-            //public async Task<IActionResult> UpdateProfessor(int id, [FromBody] Professor professor)
-            //{
-            //    if (id != professor.Id)
-            //    {
-            //        return BadRequest("El ID del cuerpo no coincide con el de la ruta.");
-            //    }
-
-            //    var existingProfessor = await _context.Professors.FindAsync(id);
-            //    if (existingProfessor == null)
-            //    {
-            //        return NotFound($"No se encontró ningún profesor con el ID {id}.");
-            //    }
-
-            //    existingProfessor.Name = professor.Name;
-            //    existingProfessor.LastName = professor.LastName;
-            //    existingProfessor.Email = professor.Email;
-            //    existingProfessor.UserName = professor.UserName;
-            //    existingProfessor.Password = encryption.Encrypt(professor.Password);//pmc
-            //    existingProfessor.Description = professor.Description;
-            //    existingProfessor.Photo = professor.Photo;
-            //    existingProfessor.SocialLink = professor.SocialLink;
-            //    existingProfessor.StatusProfessor = professor.StatusProfessor;
-
-            //    try
-            //    {
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        return StatusCode(500, "Ocurrió un error de concurrencia al actualizar el profesor.");
-            //    }
-
-            //    return NoContent();
-            //}
-
+        
             // DELETE: api/Professor/DeleteProfessor/{id}
             [HttpDelete]
         [Route("[action]/{id}")]
@@ -222,7 +181,7 @@ namespace APIProfessor.Controllers
             // 1️⃣ Buscar el usuario sin desencriptar la contraseña
             var professor = await _context.Professors
                 .Include(p => p.Courses)
-                .Where(p => p.UserName == username)
+                .Where(p => p.UserName == username && p.StatusProfessor == true)
                 .FirstOrDefaultAsync();
 
             // 2️⃣ Si no se encontró el usuario, retornar error 404
