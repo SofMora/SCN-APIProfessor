@@ -9,7 +9,7 @@
         public string UserName { get; set; } = null!;
         public string Password { get; set; } = null!;
         public string? Description { get; set; }
-        public string? Photo { get; set; } // <-- Aquí lo cambiamos a string base64
+        public string? Photo { get; set; }
         public string? SocialLink { get; set; }
         public bool? StatusProfessor { get; set; }
     }
