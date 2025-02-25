@@ -8,23 +8,30 @@ pool:
 
 
 steps: 
+- task: UseDotNet@2
+  displayName: 'Usar .NET 8.0 SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 - task: DotNetCoreCLI@2
   displayName: "Compilación"
   inputs:
     command: 'build'
-    projects: '**/*.csproj'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/SCN-APIProfessor'
+    projects: '$(System.DefaultWorkingDirectory)/SCN-APIProfessor/**/*.csproj'
+    arguments: '--configuration Release --framework net8.0'
 
 - task: DotNetCoreCLI@2
   displayName: "Publicación"
   inputs:
     command: 'publish'
-    publishWebProjects: true
-    workingDirectory: '$(System.DefaultWorkingDirectory)/SCN-APIProfessor'
+    projects: '$(System.DefaultWorkingDirectory)/SCN-APIProfessor/**/*.csproj'
+    arguments: '--configuration Release --output $(System.DefaultWorkingDirectory)/publish_output'
+
 - task: AzureRmWebAppDeployment@5
   displayName: "Despliegue"
   inputs:
     ConnectionType: 'AzureRM'
     appType: 'webApp'
     WebAppName: 'SCNAPIProfessor'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/publish_output/**/*.zip'
