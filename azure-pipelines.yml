@@ -1,0 +1,30 @@
+
+trigger:
+- main
+
+pool:
+  name: scn_agent_pool 
+
+
+
+steps: 
+- task: DotNetCoreCLI@2
+  displayName: "Compilación"
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/SCN-APIProfessor'
+
+- task: DotNetCoreCLI@2
+  displayName: "Publicación"
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    workingDirectory: '$(System.DefaultWorkingDirectory)/SCN-APIProfessor'
+- task: AzureRmWebAppDeployment@5
+  displayName: "Despliegue"
+  inputs:
+    ConnectionType: 'AzureRM'
+    appType: 'webApp'
+    WebAppName: 'SCNAPIProfessor'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
