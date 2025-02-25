@@ -25,7 +25,6 @@ steps:
   displayName: "Despliegue"
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure subscription-1(f5346de4-af56-4396-a0e4-188bce1d0bcb)'
     appType: 'webApp'
     WebAppName: 'SCNAPIProfessor'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
